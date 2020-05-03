@@ -1,0 +1,52 @@
+Schema:
+Create table If Not Exists Numbers (Number int, Frequency int);
+Truncate table Numbers;
+insert into Numbers (Number, Frequency) values ('0', '7');
+insert into Numbers (Number, Frequency) values ('1', '1');
+insert into Numbers (Number, Frequency) values ('2', '3');
+insert into Numbers (Number, Frequency) values ('3', '1');
+
+
+The Numbers table keeps the value of number and its frequency.
+
++----------+-------------+
+|  Number  |  Frequency  |
++----------+-------------|
+|  0       |  7          |
+|  1       |  1          |
+|  2       |  3          |
+|  3       |  1          |
++----------+-------------+
+In this table, the numbers are 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 3, so the median is (0 + 0) / 2 = 0.
+
++--------+
+| median |
++--------|
+| 0.0000 |
++--------+
+Write a query to find the median of all numbers and name the result as median.
+
+Solution:
+SELECT AVG(a.number) median
+FROM Numbers a
+WHERE a.frequency >= ABS(
+    (SELECT SUM(frequency) FROM Numbers WHERE a.number <= number) - 
+    (SELECT SUM(frequency) FROM Numbers WHERE a.number >= number));
+    
+    
+SELECT CASE WHEN count(*) =1 THEN ROUND(Number,4) ELSE ROUND(SUM(Number)/2,4) END AS median
+FROM 
+(SELECT *
+FROM
+(SELECT *, 
+		CASE WHEN total_number % 2 !=0 THEN ROUND((total_number+1)/2,0) ELSE ROUND(total_number/2,0) END AS median_1,
+        CASE WHEN total_number % 2 !=0 THEN ROUND((total_number+1)/2,0) ELSE ROUND((total_number+2)/2,0) END AS median_2,
+		ifnull(LAG(current_number,1) OVER(ORDER BY Number),0) AS number_before,
+        ifnull(LEAD(current_number,1) OVER(ORDER BY Number),0) AS number_after
+FROM
+(SELECT *, 
+	 SUM(Frequency) OVER(ORDER BY Number) AS current_number,
+     SUM(Frequency) OVER() AS total_number
+FROM Numbers) AS a) AS b
+WHERE (median_1 > number_before AND median_1 < number_after)
+OR (median_2 > number_before AND median_2 < number_after)) AS c;
