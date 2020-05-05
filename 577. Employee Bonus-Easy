@@ -52,5 +52,15 @@ LEFT JOIN Bonus b
 ON a.empId = b.empId) AS c
 WHERE 1000_ornot =0;
 
+SELECT
+    e.name,
+    b.bonus
+FROM
+    Employee e LEFT JOIN Bonus b ON
+    e.empid = b.empid
+WHERE
+    b.bonus < 1000 OR 
+    b.bonus IS NULL;
+
 Note:
-GROUP BY, HAVING, ORDER BY 
+GROUP BY, HAVING, ORDER BY can use alias in SELECT function.
