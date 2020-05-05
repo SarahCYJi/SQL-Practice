@@ -1,0 +1,43 @@
+Candidate
++-----+---------+
+| id  | Name    |
++-----+---------+
+| 1   | A       |
+| 2   | B       |
+| 3   | C       |
+| 4   | D       |
+| 5   | E       |
++-----+---------+ 
+
+ Vote
++-----+--------------+
+| id  | CandidateId  |
++-----+--------------+
+| 1   |     2        |
+| 2   |     4        |
+| 3   |     3        |
+| 4   |     2        |
+| 5   |     5        |
++-----+--------------+
+
+output
++------+
+| Name |
++------+
+| B    |
++------+
+
+Notes:
+You may assume there is no tie, in other words 
+there will be at most one winning candidate.
+
+Solution:
+SELECT b.Name
+FROM
+(SELECT CandidateId, COUNT(*) AS num_appear
+FROM Vote
+GROUP BY CandidateId
+ORDER BY COUNT(*) DESC 
+LIMIT 1) AS a
+INNER JOIN Candidate b
+ON a.CandidateId = b.id;
