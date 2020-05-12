@@ -1,0 +1,95 @@
+SQL Schema:
+Create table If Not Exists student (name varchar(50), continent varchar(7))
+Truncate table student
+insert into student (name, continent) values ('Jane', 'America')
+insert into student (name, continent) values ('Pascal', 'Europe')
+insert into student (name, continent) values ('Xi', 'Asia')
+insert into student (name, continent) values ('Jack', 'America')
+
+
+A U.S graduate school has students from Asia, Europe and America. The students' location information are stored in table student as below.
+ 
+
+| name   | continent |
+|--------|-----------|
+| Jack   | America   |
+| Pascal | Europe    |
+| Xi     | Asia      |
+| Jane   | America   |
+ 
+
+Pivot the continent column in this table so that each name is sorted alphabetically and displayed underneath its corresponding continent. The output headers should be America, Asia and Europe respectively. It is guaranteed that the student number from America is no less than either Asia or Europe.
+ 
+
+For the sample input, the output is:
+ 
+
+| America | Asia | Europe |
+|---------|------|--------|
+| Jack    | Xi   | Pascal |
+| Jane    |      |        |
+ 
+
+Follow-up: If it is unknown which continent has the most students, can you write a query to generate the student report?
+
+
+Solution:
+mysql solution 1:
+SELECT America, Asia, Europe
+FROM(
+    SELECT continentorder,
+    MAX(CASE WHEN continent = 'America' THEN name END )AS America,
+    MAX(CASE WHEN continent = 'Europe' THEN name END )AS Europe,
+    MAX(CASE WHEN continent = 'Asia' THEN name END )AS Asia
+    FROM (
+        SELECT *,
+        ROW_NUMBER()OVER(PARTITION BY continent ORDER BY name) AS continentorder
+        FROM student
+    ) AS SOURCE
+    GROUP BY continentorder
+)temp
+
+
+MySQL:
+SELECT 
+    America, Asia, Europe
+FROM
+    (SELECT @as:=0, @am:=0, @eu:=0) t,
+    (SELECT 
+        @as:=@as + 1 AS asid, name AS Asia
+    FROM
+        student
+    WHERE
+        continent = 'Asia'
+    ORDER BY Asia) AS t1
+        RIGHT JOIN
+    (SELECT 
+        @am:=@am + 1 AS amid, name AS America
+    FROM
+        student
+    WHERE
+        continent = 'America'
+    ORDER BY America) AS t2 ON asid = amid
+        LEFT JOIN
+    (SELECT 
+        @eu:=@eu + 1 AS euid, name AS Europe
+    FROM
+        student
+    WHERE
+        continent = 'Europe'
+    ORDER BY Europe) AS t3 ON amid = euid
+;
+
+
+SQL Server
+select America, 
+       Asia, 
+       Europe
+from
+    (select name, 
+            continent,
+            row_number() over (partition by continent order by name) as id
+     from student) as a
+     pivot
+     (max(name) for continent in ([America], [Asia], [Europe])) as b;
+     
