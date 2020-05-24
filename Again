@@ -3,3 +3,4 @@
 1076. Project Employees II: window function cannot use alias in the same select clause.
 1083.SUM(NULL) → NULL    SUM(NULL, 1) → 1
 1127-HARD
+1132.COUNT(DISTINCT CASE WEHN);SUM(CASE WHEN)
