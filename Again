@@ -4,3 +4,4 @@
 1083.SUM(NULL) → NULL    SUM(NULL, 1) → 1
 1127-HARD
 1132.COUNT(DISTINCT CASE WEHN);SUM(CASE WHEN)
+1179.Use SUM(), MIN(), AVG() etc. aggregate function when using CASE WHEN and GROUP BY.
