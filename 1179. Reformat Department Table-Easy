@@ -67,3 +67,16 @@ GROUP BY    id
 
 Take Away:
 Use SUM(), MIN(), AVG() etc. aggregate function when using CASE WHEN and GROUP BY.
+
+
+Or using pivot:
+Select * from
+(Select id, revenue, month from department)
+pivot(
+min(revenue) for month in ('Jan' Jan_Revenue, 'Feb' Feb_Revenue, 'Mar' Mar_Revenue,
+'Apr' Apr_Revenue, 'May' May_Revenue, 'Jun' Jun_Revenue,
+'Jul' Jul_Revenue, 'Aug' Aug_Revenue, 'Sep' Sep_Revenue,
+'Oct' Oct_Revenue, 'Nov' Nov_Revenue, 'Dec' Dec_Revenue
+)
+)
+
