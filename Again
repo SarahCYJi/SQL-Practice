@@ -1,5 +1,5 @@
 603,
-618(pivot)
+618, 1179(pivot)
 1076. Project Employees II: window function cannot use alias in the same select clause.
 1083.SUM(NULL) → NULL    SUM(NULL, 1) → 1
 1127-HARD
