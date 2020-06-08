@@ -7,3 +7,4 @@
 1179.Use SUM(), MIN(), AVG() etc. aggregate function when using CASE WHEN and GROUP BY.
 1205. UNION & CASE WHEN combine two tables with different conditions
 1225. union all; status and row-number pair-up; lead() lag()
+1280. can't find 题源
