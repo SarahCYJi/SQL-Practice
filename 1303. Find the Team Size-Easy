@@ -53,3 +53,10 @@ Employees with Id 5,6 are part of a team with team_id = 9.
 
 
 Solution:
+SELECT    b.*, a.team_size
+FROM      Employee b
+LEFT JOIN 
+(SELECT    team_id, COUNT(*) AS team_size
+FROM      Employee
+GROUP BY  team_id) AS a
+ON      b.team_id =a.team_id
