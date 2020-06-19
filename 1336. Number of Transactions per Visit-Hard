@@ -133,3 +133,33 @@ select v.user_id, v.visit_date, count(t.amount) as cnt
     group by v.user_id, v.visit_date 
 )t4 group by cnt
 )t5 on t3.id=t5.cnt;
+
+
+WITH RECURSIVE t2 AS
+(SELECT  t1.num transactions_count,
+        COUNT(t1.user_id) visits_count
+FROM
+(SELECT  v.user_id,
+        COUNT(t.transaction_date) num
+FROM    Visits v LEFT JOIN Transactions t ON v.user_id = t.user_id
+    AND v.visit_date = t.transaction_date
+GROUP BY    v.user_id,v.visit_date) t1
+GROUP BY    transactions_count
+ORDER BY    transactions_count),
+t3 AS
+(
+    SELECT  0 AS mini,
+            MAX(t2.transactions_count) maxi
+    FROM    t2
+    UNION ALL
+    SELECT  mini + 1,
+            maxi
+    FROM    t3
+    WHERE   mini < maxi
+)
+SELECT  t3.mini transactions_count,
+        IFNULL(t2.visits_count,0) visits_count
+FROM    t3 LEFT JOIN t2 ON t3.mini = t2.transactions_count;
+
+Take away: 'RECURSIVE' (used with 'WITH') word must appear before the first CTE ! but the recursive cte doesn't have to be the first cte!
+
