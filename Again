@@ -9,3 +9,8 @@
 1225. union all; status and row-number pair-up; lead() lag()
 1280. can't find 题源
 1336. Hard  recursive cte
+1355. 
+Takeaway:
+1. 用！=的时候注意区分 AND 和 OR ，如果要两个都不相等的话，用！= AND  ！= 连接
+2. window function 不能在同一个select里面嵌套使用，譬如：不能在同一个select里面定义 ranking, max_rank, min_rank
+3. winder funciton 中 () 里可以使用aggregate function, 如：RANK() OVER(ORDER BY IFNULL(COUNT(DISTINCT b.name),0)) AS ranking
