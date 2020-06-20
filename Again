@@ -14,3 +14,8 @@ Takeaway:
 1. 用！=的时候注意区分 AND 和 OR ，如果要两个都不相等的话，用！= AND  ！= 连接
 2. window function 不能在同一个select里面嵌套使用，譬如：不能在同一个select里面定义 ranking, max_rank, min_rank
 3. winder funciton 中 () 里可以使用aggregate function, 如：RANK() OVER(ORDER BY IFNULL(COUNT(DISTINCT b.name),0)) AS ranking
+
+1369.
+Takeaway:
+1. WHERE executes before SELECT 
+2. You can use window function in case when
