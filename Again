@@ -19,3 +19,6 @@ Takeaway:
 Takeaway:
 1. WHERE executes before SELECT 
 2. You can use window function in case when
+
+1421. IFNULL(npv,0) AS npv 
+如果没有 AS npv，命名为IFNULL(npv,0)
