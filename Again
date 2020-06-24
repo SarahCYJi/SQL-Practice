@@ -22,3 +22,14 @@ Takeaway:
 
 1421. IFNULL(npv,0) AS npv 
 如果没有 AS npv，命名为IFNULL(npv,0)
+
+
+1435. bin补全，哪怕columns中对应值没有bin中的某个category，这个category最后也要显示数值0
+Solution:
+select '[0-5>' as bin, count(1) as total
+from Sessions
+where duration>=0 and duration < 300
+union
+select '[5-10>' as bin, count(1) as total
+from Sessions
+where duration>=300 and duration < 600;
