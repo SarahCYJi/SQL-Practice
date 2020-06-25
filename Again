@@ -43,3 +43,7 @@ CASE WHEN left_value > right_value AND operator = '>' THEN 'true'
           WHEN left_value = right_value AND operator = '=' THEN 'true'
           WHEN left_value < right_value AND operator = '<' THEN 'true'
           ELSE 'false' END AS value
+
+
+1454.
+logged in to their accounts for n or more consecutive days
