@@ -33,3 +33,13 @@ union
 select '[5-10>' as bin, count(1) as total
 from Sessions
 where duration>=300 and duration < 600;
+
+
+1440.
+
+Takeaway:
+when operate is a condition:
+CASE WHEN left_value > right_value AND operator = '>' THEN 'true'
+          WHEN left_value = right_value AND operator = '=' THEN 'true'
+          WHEN left_value < right_value AND operator = '<' THEN 'true'
+          ELSE 'false' END AS value
