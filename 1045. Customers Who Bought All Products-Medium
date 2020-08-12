@@ -78,3 +78,11 @@ WHERE num_uni_orders IN (select COUNT(DISTINCT product_key) FROM Product);
 
 Above method suggests that the product table might not include all the products in the customer table;
 But in fact, the product table should contain complete info. Therefore, just use having COUNT() =COUNT() should be enough;
+
+
+select customer_id
+from Customer
+group by customer_id
+having count(distinct product_key) = (
+    select count(1)
+    from Product)
